@@ -1,0 +1,31 @@
+PSQL Infor for DB
+
+CREATE DATABASE journal
+
+create table
+
+  CREATE TABLE journalentry (journal_id VARCHAR(8), description TEXT)
+                                                journal_id will be created from client (MMDDYYYY)            
+                                                from research online, writing TEXT allows for infinite character limit
+
+  INSERT INTO journal(day_id, description) VALUES ('11223333', 'today I wanted to create my own react');
+
+
+
+
+NEXT SESSION AT OFFICE - UPDATE the table to match the new table layout below
+
+
+  CREATE TABLE journalentry (id SERIAL PRIMARY KEY, date VARCHAR(8), description TEXT, label TEXT)
+
+    (note on date format - MMDDYYYY)
+
+        Date entry MUST BE A STRING '0011222' , if not a string, it will still submit into the DB , but 0 
+            in the front will not register
+
+
+For next office session - reference G drive for specific notes
+
+
+
+

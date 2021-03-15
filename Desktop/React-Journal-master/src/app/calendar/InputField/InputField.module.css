@@ -1,0 +1,16 @@
+.InputField {
+    box-sizing: border-box;
+    margin: auto;
+    display: flex;
+    margin-top: 15px;
+    width: 600px;
+    height: 300px;
+    transform: translateY(0px);
+    opacity: 1;
+}
+
+.CenterButton {
+    margin: auto;
+    text-align: center;
+    margin-top: 10px;
+}
