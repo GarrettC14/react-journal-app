@@ -1,4 +1,4 @@
-import React, {useState} from 'react'
+import React, {useState, useEffect} from 'react'
 import styles from './InputField.module.css'
 import Button from '@material-ui/core/Button'
 import Aux from '../../../Auxiliary/Auxiliary'
@@ -7,6 +7,8 @@ import DeleteIcon from '@material-ui/icons/Delete'
 import TextareaAutosize from '@material-ui/core/TextareaAutosize'
 import FormatDate from './FormatDate'
 import SubmitNewEntry from './EventHandlers/SubmitNewEntry'
+import DeleteEntryFromDB from './EventHandlers/DeleteEntry'
+import GetEntryFromDB from './EventHandlers/GetEntryFromDB'
 
 
 
@@ -21,12 +23,32 @@ const InputField = ({value}) => {
         SubmitNewEntry(UUID, description);   
     }
 
+
+    const deleteEntry = () => {
+        DeleteEntryFromDB(UUID)
+        setDescription("")
+    }
+
+    const getEntry = () => {
+        const descriptionData =  GetEntryFromDB(UUID, setDescription) //this should return description : string, which can use to setDescription
+        return (setDescription(descriptionData))
+    }
+
+    const renderTextFeild = () => {
+        setShouldRender(!shouldRender)
+        getEntry()
+    }
+
+    useEffect(() => {
+        getEntry();
+    }, [value])
     
         let textInput
         if (shouldRender) {
             textInput = (
             <div>
                 <TextareaAutosize
+                //when this renders, call on getEntry?
                 value = {description}
                 onChange = {e => setDescription(e.target.value)} 
                 style = {{
@@ -47,10 +69,17 @@ const InputField = ({value}) => {
                         </Button>
                         <Button 
                             startIcon={<DeleteIcon/>}
-                            onClick= { e => setShouldRender(!shouldRender)}
+                            onClick= { e => deleteEntry()}
                             color = "secondary"
                             variant = "contained">
                                 Discard
+                        </Button>
+                        <Button 
+                            startIcon={<DeleteIcon/>}
+                            onClick= { e => getEntry()}
+                            color = "secondary"
+                            variant = "contained">
+                                test this
                         </Button>
                     </div>
             </div>)
@@ -64,7 +93,7 @@ const InputField = ({value}) => {
             <Button 
             variant="contained" 
             color = "primary" 
-            onClick= {e => setShouldRender(!shouldRender)}
+            onClick= {e => renderTextFeild()}
             size = "medium"
             style={{
                 margin: "auto",

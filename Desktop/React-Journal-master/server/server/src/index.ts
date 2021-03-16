@@ -6,9 +6,6 @@ import * as express from "express";
 import {JournalEntry} from "./entity/JournalEntry"
 const bodyParser = require("body-parser")
 
-
-
-
 createConnection().then(async connection => {
     const app = express();
     const port = 5000;
@@ -46,6 +43,24 @@ createConnection().then(async connection => {
         }
     })
 
+    app.delete("/entry/:date_id", async(req : Request, res : Response) => {
+        try {
+            const param = req.params //this returns {date_id : '20211603}
+            const deleteEntry = await connectToDB
+                .createQueryBuilder()
+                .delete()
+                .from(JournalEntry)
+                .where("date = :date_id", {date_id : param.date_id})
+                .execute();
+                
+            const getAllEntries = await connectToDB.find()
+            console.log('complete list of entries', getAllEntries)
+            res.send(getAllEntries)
+        } catch (err) {
+            console.error(err.message)
+        }
+    })
+
 
     //create a new entry / if exists, update the description
 
@@ -57,8 +72,6 @@ createConnection().then(async connection => {
             const {description} = req.body
 
             const getOneEntryForIdParam = await connectToDB.findOne({date : date_id})
-            console.log(getOneEntryForIdParam)
-
                 //if code above returns undefined, it means that there is no entry for this date
 
                 //if it does not return undefined, it means there is already an entry saved in the DB
@@ -73,7 +86,7 @@ createConnection().then(async connection => {
 
                     //to confirm the update happens
                     const updatedEntry = await connectToDB.findOne({id : entry_ID})
-                    console.log(updateEntry)
+                    console.log("the entry for this date has been updated to", updateEntry)
                     return res.send(results);
                 } else /* new data, needs to be saved */ {
                     const journalentry = new JournalEntry()
@@ -83,27 +96,12 @@ createConnection().then(async connection => {
                     journalentry.label = 'test'
 
                     await connectToDB.save(journalentry)
-                    console.log('new entry has been saved!')
-
-                    const getAllEntries = await connectToDB.find()
-                    console.log('complete list of entries', getAllEntries)
-                    res.send(getAllEntries)   
+                    console.log('new entry has been saved!', journalentry)
+                    res.send(journalentry)   
                 }
         } catch (err) {
             console.error(err.message)
         }
     })
-
-    app.delete("/entry/:id", async(req : Request, res : Response) => {
-        try {
-            const results = await connectToDB.delete(req.params.id);
-            console.log("Deleted from DB!")
-            return res.send(results);
-        } catch (err) {
-            console.error(err.message)
-        }
-    })
-
-
 
 }).catch(error => console.log(error));
