@@ -10,7 +10,7 @@ export default function GetEntryFromDB (UUID, setDescription)  {
         try{
             const result = await fetch(`http://localhost:5000/entry/${date_id}`)
             const data = await result.json()
-            if(data === undefined) {
+            if(data ) {
                 setDescription("")
             } else {
                 const dataForState = data.description

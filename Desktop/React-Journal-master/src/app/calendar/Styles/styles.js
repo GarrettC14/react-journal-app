@@ -15,4 +15,10 @@ function isSelected(day, value) {
     if (isSelected(day, value)) return "selected" 
     if (isToday(day)) return "today" 
     return ""
-  }
+  } 
+
+  //this is where the styles are added to the client. 
+
+    //I imageine here is where I would add the label
+
+//https://www.toptal.com/front-end/dynamic-css-with-custom-properties => reference this for the CSS -- syntax for variable styling
