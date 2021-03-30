@@ -10,14 +10,13 @@ export default function GetEntryFromDB (UUID, setDescription)  {
         try{
             const result = await fetch(`http://localhost:5000/entry/${date_id}`)
             const data = await result.json()
-            if(data ) {
-                setDescription("")
-            } else {
+            if(data) {
                 const dataForState = data.description
                 setDescription(dataForState)
-                console.log(dataForState)
+                console.log(dataForState)            
+            } else {
+                setDescription("Create a Journal Entry Here")
             }
-
         } catch(err) {
             console.error(err.message)
         }

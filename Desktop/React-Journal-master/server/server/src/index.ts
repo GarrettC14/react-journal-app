@@ -36,6 +36,9 @@ createConnection().then(async connection => {
         try{
             const date_id = req.params.date_id;
             const result = await connectToDB.findOne({date : date_id})
+            if(result === undefined) {
+                res.send({description : "No Entry Recorded For This Date"})
+            }
             console.log(result)
             res.send(result)            
         } catch(err){
