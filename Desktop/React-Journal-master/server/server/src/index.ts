@@ -24,7 +24,6 @@ createConnection().then(async connection => {
     app.get("/entry", async(req : Request, res : Response) => {
         try{        
             res.send( await connectToDB.find())
-            console.log( await connectToDB.find())
         } catch (err) {
             console.error(err.message)
         }
@@ -39,7 +38,6 @@ createConnection().then(async connection => {
             if(result === undefined) {
                 res.send({description : "No Entry Recorded For This Date"})
             }
-            console.log(result)
             res.send(result)            
         } catch(err){
         console.error(err.message)
@@ -57,7 +55,6 @@ createConnection().then(async connection => {
                 .execute();
                 
             const getAllEntries = await connectToDB.find()
-            console.log('complete list of entries', getAllEntries)
             res.send(getAllEntries)
         } catch (err) {
             console.error(err.message)
@@ -89,7 +86,6 @@ createConnection().then(async connection => {
 
                     //to confirm the update happens
                     const updatedEntry = await connectToDB.findOne({id : entry_ID})
-                    console.log("the entry for this date has been updated to", updateEntry)
                     return res.send(results);
                 } else /* new data, needs to be saved */ {
                     const journalentry = new JournalEntry()
@@ -99,7 +95,6 @@ createConnection().then(async connection => {
                     journalentry.label = 'test'
 
                     await connectToDB.save(journalentry)
-                    console.log('new entry has been saved!', journalentry)
                     res.send(journalentry)   
                 }
         } catch (err) {

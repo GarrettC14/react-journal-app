@@ -74,13 +74,6 @@ const InputField = ({value}) => {
                             variant = "contained">
                                 Discard
                         </Button>
-                        <Button 
-                            startIcon={<DeleteIcon/>}
-                            onClick= { e => getEntry()}
-                            color = "secondary"
-                            variant = "contained">
-                                test this
-                        </Button>
                     </div>
             </div>)
         } else {
